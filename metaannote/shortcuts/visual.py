@@ -1,9 +1,7 @@
 from pathlib import Path
 from PIL import Image, ImageDraw
 import random
-import pandas as pd
 import matplotlib.pyplot as plt
-import seaborn as sbn
 
 from metaannote.datatypes import *
 
