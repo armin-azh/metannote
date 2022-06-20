@@ -1,0 +1,3 @@
+
+class DatasetParsedError(Exception):
+    pass
