@@ -40,7 +40,7 @@ class DataformatList(list):
         super(DataformatList, self).__init__()
 
     def __getitem__(self, item):
-        super(DataformatList, self).__getitem__(item - 1)
+        return super(DataformatList, self).__getitem__(item - 1)
 
 
 class DataIterator(Iterator):
@@ -52,13 +52,15 @@ class DataIterator(Iterator):
         self._reverse = reverse
         self._position = -1 if reverse else 0
 
-    def __next__(self) -> Dataformat:
+    def __next__(self) :
         try:
             value = self._collection[self._position]
             self._position += -1 if self._reverse else 1
         except IndexError:
             raise StopIteration()
+
         return value
+
 
 
 class DataCollection(Iterable):

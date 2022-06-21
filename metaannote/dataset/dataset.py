@@ -5,7 +5,10 @@ from PIL import Image
 from pathlib import Path
 import json
 
-from .data_format import DataCollection, DataIterator, Dataformat, DataformatList
+from .data_format import (DataCollection,
+                          DataIterator,
+                          Dataformat,
+                          DataformatList)
 from .datatypes import *
 from .exceptions import *
 
@@ -15,16 +18,16 @@ class Dataset(ABC):
     def __init__(self):
         self._state = None
         self._data_iterator: Union[None, DataIterator] = None
-        self.build()
 
     def build(self, **kwargs) -> None:
         parsed_data = self.parse_data(**kwargs)
-
         rev = kwargs.get('reverse')
         if rev:
             self._data_iterator = DataCollection(collection=parsed_data).get_reverse_iterator()
         else:
             self._data_iterator = iter(DataCollection(collection=parsed_data))
+
+        self.move_state(state=SplitState())
 
     @abstractmethod
     def parse_data(self, **kwargs) -> DataformatList:
@@ -46,6 +49,18 @@ class Dataset(ABC):
 
     def augmentation(self):
         pass
+
+    def health_care(self, **kwargs) -> None:
+        pass
+
+    @property
+    def get_data_iter(self) -> Union[None, DataIterator]:
+        return self._data_iterator
+
+    def __str__(self):
+        obj_add = hex(id(self))
+        state_name = self._state.__class__.__name__ if self._state else None
+        return f'Memory: {obj_add}, State: {state_name}'
 
 
 class CocoDataset(Dataset):

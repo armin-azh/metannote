@@ -1,6 +1,9 @@
 from __future__ import annotations
 from abc import ABC, abstractmethod
-from typing import Any, Optional
+from typing import Any, Optional, List
+from data_format import Dataformat
+
+from .exceptions import HandlerBuildError
 
 
 class Handler(ABC):
@@ -24,8 +27,17 @@ class AbstractHandler(Handler):
 
     @abstractmethod
     def handle(self, request: Any) -> Optional[str]:
-        if self._next_handler:
-            return self._next_handler.handle(request)
-        return None
+        pass
 
 
+class AugImFlip(AbstractHandler):
+    def __init__(self, **kwargs):
+        super(AugImFlip, self).__init__()
+        self._vertical = kwargs.get('vertical') if kwargs.get('vertical') else False
+        self._horizontal = kwargs.get('horizontal') if kwargs.get('horizontal') else False
+
+        if not self._vertical and not self._horizontal: raise HandlerBuildError('AugImFlip: Both vertical and '
+                                                                                'horizontal can`t be False')
+
+    def handle(self, request: List[Dataformat]) -> List[Dataformat]:
+        pass
