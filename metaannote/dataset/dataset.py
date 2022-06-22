@@ -1,6 +1,8 @@
 from __future__ import annotations
 from abc import ABC, abstractmethod
 from typing import Union
+
+import numpy as np
 from PIL import Image
 from pathlib import Path
 import json
@@ -95,10 +97,10 @@ class CocoDataset(Dataset):
             except KeyError:
                 im_annotations[im_id] = [item]
 
-        ds = DataformatList(categories=categories)
+        ds = DataformatList(categories=np.array(categories))
         for im_id, item in images.items():
             p_image = dir_im.joinpath(item.get('file_name'))
-            bboxes = [val['bbox'] for val in im_annotations[im_id]]
+            bboxes = np.array([val['bbox'] for val in im_annotations[im_id]])
             cat = [categories[val['category_id']] for val in im_annotations[im_id]]
             n_df = {
                 'image_path': p_image,

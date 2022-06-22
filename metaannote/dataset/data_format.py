@@ -3,6 +3,9 @@ from collections.abc import Iterator, Iterable
 from typing import List, Union
 from pathlib import Path
 from numpy import ndarray
+from PIL import Image
+from PIL.PngImagePlugin import PngImageFile
+from PIL.JpegImagePlugin import JpegImageFile
 
 
 class Dataformat:
@@ -33,6 +36,10 @@ class Dataformat:
     def height(self) -> int:
         return self._height
 
+    @property
+    def open_image(self) -> Union[PngImageFile, JpegImageFile, Image]:
+        return Image.open(self._image_path)
+
 
 class DataformatList(list):
     def __init__(self, **kwargs):
@@ -52,7 +59,7 @@ class DataIterator(Iterator):
         self._reverse = reverse
         self._position = -1 if reverse else 0
 
-    def __next__(self) :
+    def __next__(self):
         try:
             value = self._collection[self._position]
             self._position += -1 if self._reverse else 1
@@ -60,7 +67,6 @@ class DataIterator(Iterator):
             raise StopIteration()
 
         return value
-
 
 
 class DataCollection(Iterable):

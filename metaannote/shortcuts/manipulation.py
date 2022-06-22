@@ -45,7 +45,7 @@ def blur(im, pixel):
 
 
 if __name__ == '__main__':
-    im_path = Path('/home/lizard/PycharmProjects/annotation_tool/output/0a1ad89c-image_1641.jpg')
+    im_path = Path('/home/lizard/PycharmProjects/annotation_tool/output/0b2bf75b-vlcsnap-00035.png')
     im = Image.open(im_path)
-
+    print(type(im))
     im.show()
