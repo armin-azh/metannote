@@ -40,4 +40,8 @@ class AugImFlip(AbstractHandler):
                                                                                 'horizontal can`t be False')
 
     def handle(self, request: List[Dataformat]) -> List[Dataformat]:
-        pass
+
+        new_set = []
+
+        for data in request:
+            pass
